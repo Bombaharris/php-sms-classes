@@ -134,7 +134,7 @@ class SMS
      * Set SMS gate URL
      * 
      * @param string $_gateUrl
-     * @return \Sms
+     * @return \SMS
      */
     public function setGateURL($_gateUrl)
     {
@@ -156,7 +156,7 @@ class SMS
      * Set SMS gate user name
      * 
      * @param string $_gateUser
-     * @return \Sms
+     * @return \SMS
      */
     public function setGateUser($_gateUser)
     {
@@ -178,7 +178,7 @@ class SMS
      * Set SMS gate password
      * 
      * @param string $_gatePassword
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setGatePassword($_gatePassword)
     {
@@ -200,7 +200,7 @@ class SMS
      * Set SMS service  numeric identifier
      * 
      * @param string $gate_service_id
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setGateServiceId($gateServiceId)
     {
@@ -222,7 +222,7 @@ class SMS
      * Set SMS message
      * 
      * @param string $_text
-     * @return \Sms
+     * @return \SMS
      */
     public function setText($_text)
     {
@@ -244,7 +244,7 @@ class SMS
      * Set SMS reciver telephone number
      * 
      * @param string $_telephoneNumber
-     * @return \Sms
+     * @return \SMS
      */
     public function setTelephoneNumber($_telephoneNumber)
     {
@@ -266,7 +266,7 @@ class SMS
      * Set SMS reciver telephone number prefix
      * 
      * @param string $_numberPrefix
-     * @return \Sms
+     * @return \SMS
      */
     public function setNumberPrefix($_numberPrefix)
     {
@@ -289,7 +289,7 @@ class SMS
      * 
      * @param string $_originator alphanumeric originator address 
      * (up to 11 characters)
-     * @return \Sms
+     * @return \SMS
      */
     public function setOriginator($_originator)
     {
@@ -311,7 +311,7 @@ class SMS
      * Set dispathc numeric identifier
      * 
      * @param integer $_dispatch_id
-     * @return \Sms
+     * @return \SMS
      */
     public function setDispatchId($_dispatchId)
     {
@@ -333,7 +333,7 @@ class SMS
      * Set valid to date
      * 
      * @param string $_valid_to 
-     * @return \Sms
+     * @return \SMS
      */
     public function setValid_to($_validTo)
     {
@@ -355,7 +355,7 @@ class SMS
      * Get flag for delivery notify request from SMSC
      * 
      * @param boolean $_delivNotifRequest
-     * @return \Sms
+     * @return \SMS
      */
     public function setDelivNotifRequest($_delivNotifRequest)
     {
@@ -376,7 +376,7 @@ class SMS
     /**
      * Set flag for zeroclass message
      * 
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setZeroClass($zeroclass)
     {
@@ -399,7 +399,7 @@ class SMS
      * @desc decrase SMS chars limit to 70 chars
      * 
      * @param boolean $_advancedEncoding
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setAdvancedEncoding($_advancedEncoding)
     {
@@ -421,7 +421,7 @@ class SMS
      * Set flag for delete content
      * 
      * @param boolean $_deleteContent 
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setDeleteContent($_deleteContent)
     {
@@ -443,7 +443,7 @@ class SMS
      * Set SMS numeric indentifier
      * 
      * @param integer $_smsId
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setSMSId($_smsId)
     {
@@ -465,7 +465,7 @@ class SMS
      * Set timeout
      * 
      * @param integer $_timeout
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setTimeout($_timeout)
     {
@@ -487,7 +487,7 @@ class SMS
      * Set cert path
      * 
      * @param string $_sslCertPath
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setSslCertPath($_sslCertPath)
     {
@@ -509,7 +509,7 @@ class SMS
      * Set cert password
      * 
      * @param string $_sslCertPass
-     * @return \Sms 
+     * @return \SMS 
      */
     public function setSslCertPass($_sslCertPass)
     {
