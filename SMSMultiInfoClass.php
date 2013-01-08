@@ -222,7 +222,7 @@ class SMSMultiInfo extends SMS implements SMSable
         );
         ($this->getDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
         if ( in_array(null, $data) ) {
-            throw new UnexpectedValueException("Not enough data to confirm sms.", 2);
+            throw new UnexpectedValueException("Not enough data to confirm sms.", 3);
         }
         return $this->getGateURL() . self::CONFIRM_URL_PATH . "?" . http_build_query($data);
     }
@@ -243,7 +243,7 @@ class SMSMultiInfo extends SMS implements SMSable
         ($this->getDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
         ($this->getTimeout()) AND $data[self::PARAM_TIMEOUT] = $this->getTimeout();
         if ( in_array(null, $data) ) {
-            throw new UnexpectedValueException("Not enough data to get sms.", 3);
+            throw new UnexpectedValueException("Not enough data to get sms.", 4);
         }
         return $this->getGateURL() . self::GET_URL_PATH . "?" . http_build_query($data);
     }
@@ -325,7 +325,7 @@ class SMSMultiInfo extends SMS implements SMSable
             $dateTime = new DateTime("{$year[0]}{$year[1]}{$split[2]}-{$split[1]}-{$split[0]} {$split[3]}:{$split[4]}:{$split[5]}");
             return $dateTime->format("U");
         } catch ( Exception $e ) {
-            throw new UnexpectedValueException($e->getMessage(), 4);
+            throw new UnexpectedValueException($e->getMessage(), 5);
         }
     }
 
