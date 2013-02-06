@@ -79,6 +79,7 @@ interface SMSable
  * content removal from SMS gate database
  * @property integer $_smsId SMS numeric identifier
  * @property integer $_timeout timeout time in microseconds
+ * @property boolean $_manualConfirm set manual confirm while getting sms
  * @property string $_sslCertPath path to cert file
  * @property string $_sslCertPass  pass to cert file
  * 
@@ -102,6 +103,7 @@ class SMS
     protected $_deleteContent = false;
     protected $_smsId = null;
     protected $_timeout = 30000;
+    protected $_manualConfirm = false;
     protected $_sslCertPath = null;
     protected $_sslCertPass = null;
     public $response = array(
@@ -470,6 +472,26 @@ class SMS
     public function setTimeout($_timeout)
     {
         $this->_timeout = $_timeout;
+        return $this;
+    }
+    /**
+     * Get manual confirm
+     *  
+     * @return boolean
+     */
+    public function isManualConfirm()
+    {
+        return $this->_manualConfirm;
+    }
+    /**
+     * Set manual confirm
+     * 
+     * @param boolean $_manualConfirm
+     * @return \SMS 
+     */
+    public function setManualConfirm($_manualConfirm)
+    {
+        $this->_manualConfirm = $_manualConfirm;
         return $this;
     }
 

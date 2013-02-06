@@ -154,6 +154,14 @@ class SMSMultiInfo extends SMS implements SMSable
      * type: integer
      */
     const PARAM_TIMEOUT = 'timeout';
+    /**
+     * @desc param url for manual confrim while get sms
+     * 
+     * required: no <br />
+     * default: false <br />
+     * type: boolean
+     */
+    const PARAM_MANUAL_CONFIRM = 'manualconfirm';
 
     /**
      * Returns send URL
@@ -242,6 +250,7 @@ class SMSMultiInfo extends SMS implements SMSable
         );
         ($this->getDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
         ($this->getTimeout()) AND $data[self::PARAM_TIMEOUT] = $this->getTimeout();
+        ($this->isManualConfirm()) AND $data[self::PARAM_MANUAL_CONFIRM] = "true";
         if ( in_array(null, $data) ) {
             throw new UnexpectedValueException("Not enough data to get sms.", 4);
         }
