@@ -93,9 +93,9 @@ class SMS
     protected $_text = null;
     protected $_telephoneNumber = null;
     protected $_numberPrefix = null;
-    protected $_originator = false;
+    protected $_originator = null;
     protected $_dispatchId = 10;
-    protected $_validTo = false;
+    protected $_validTo = null;
     protected $_delivNotifRequest = false;
     protected $_zeroclass = false;
     protected $_advancedEncoding = false;

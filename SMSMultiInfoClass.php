@@ -129,12 +129,12 @@ class SMSMultiInfo extends SMS implements SMSable
      * @desc param url for resposne SMS numeric identifier
      * 
      * required: no <br />
-     * wartosc domyslna: null<br />
+     * default: null<br />
      * type: integer
      */
     const PARAM_SMS_IN_ID = 'smsInId';
     /**
-     * @desc nadpis numeru nadawcy
+     * @desc param url for alphanumeric originator address (up to 11 characters)
      * 
      * required: no <br />
      * type: string
@@ -171,9 +171,9 @@ class SMSMultiInfo extends SMS implements SMSable
             self::PARAM_SERVICE_ID => $this->getGateServiceId(),
             self::PARAM_TEXT => $this->getText(),
             self::PARAM_DEST => $this->getNumberPrefix() . $this->getTelephoneNumber(),
-            self::PARAM_ORIG => $this->getOriginator(),
         );
-        ($this->getValidTo()) AND $data[self::PARAM_VALID_TO] = $this->_format_date($this->getValidTo());
+        (!is_null($this->getOriginator())) AND $data[self::PARAM_ORIG] = $this->getOriginator();
+        (!is_null($this->getValidTo())) AND $data[self::PARAM_VALID_TO] = $this->_format_date($this->getValidTo());
         ($this->isDelivNotifRequest()) AND $data[self::PARAM_DELIV_NOTIF_REQUEST] = "true";
         ($this->isZeroClass()) AND $data[self::PARAM_ZEROCLASS] = "true";
         ($this->isAdvancedEncoding()) AND $data[self::PARAM_ADVANCED_ENCODING] = "true";
