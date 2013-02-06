@@ -484,7 +484,7 @@ class SMS
         return $this->_manualConfirm;
     }
     /**
-     * Set manual confirm
+     * Set manual confirm while getting SMS
      * 
      * @param boolean $_manualConfirm
      * @return \SMS 

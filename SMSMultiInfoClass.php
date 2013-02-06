@@ -155,7 +155,7 @@ class SMSMultiInfo extends SMS implements SMSable
      */
     const PARAM_TIMEOUT = 'timeout';
     /**
-     * @desc param url for manual confrim while get sms
+     * @desc param url for manual confrim while getting sms
      * 
      * required: no <br />
      * default: false <br />
