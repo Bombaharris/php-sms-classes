@@ -9,7 +9,7 @@ MultiInfo Example
 Sending SMS:
 
 ```php
-require '../smsMultiInfo.php';
+require '../smsMultiInfoClass.php';
 
 $Gate = new smsMultiInfo ();
 $Gate->setGateURL('https://api1.multiinfo.plus.pl/')
@@ -32,7 +32,7 @@ Mobiltek Example
 Sending SMS:
 
 ```php
-require '../SMSMobiltek.php';
+require '../SMSMobiltekClass.php';
 
 $Gate = new SMSMobiltek();
 $Gate->setGateURL('https://gw2.mobiltek.pl/api/')
