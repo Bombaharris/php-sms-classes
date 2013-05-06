@@ -1,6 +1,6 @@
 <?php
 
-require 'smsClass.php';
+require 'SMSClass.php';
 
 /**
  * Send SMS by MultiInfo gate
@@ -401,35 +401,4 @@ class SMSMultiInfo extends SMS implements SMSable
             return true;
         }
     }
-
-    /**
-     * Parse server response and returns unified array.
-     * 
-     * @return array
-     */
-    public function explainResponse()
-    {
-        $data = array();
-
-        $data['status'] = $this->response['status'];
-        isset($this->response['data'][1]) ? $data[self::PARAM_SMS_ID] = $this->response['data'][1] : $data['errorCode'] = $this->response['error'];
-        isset($this->response['data'][2]) AND $data['type'] = $this->response['data'][2];
-        isset($this->response['data'][3]) AND $data[self::PARAM_TEXT] = $this->response['data'][3];
-        isset($this->response['data'][4]) AND $data['protocolId'] = $this->response['data'][4];
-        isset($this->response['data'][5]) AND $data['charsetSchemeId'] = $this->response['data'][5];
-        isset($this->response['data'][6]) AND $data[self::PARAM_SERVICE_ID] = $this->response['data'][6];
-        isset($this->response['data'][7]) AND $data['connectorId'] = $this->response['data'][7];
-        isset($this->response['data'][8]) AND $data[self::PARAM_SMS_IN_ID] = $this->response['data'][8];
-        isset($this->response['data'][9]) AND $data['priority'] = $this->response['data'][9];
-        isset($this->response['data'][10]) AND $data['sendDate'] = $this->_unformat_date($this->response['data'][10]);
-        isset($this->response['data'][11]) AND $data['validToDate'] = $this->_unformat_date($this->response['data'][11]);
-        isset($this->response['data'][12]) AND $data[self::PARAM_DELIV_NOTIF_REQUEST] = $this->response['data'][12];
-        isset($this->response['data'][13]) AND $data[self::PARAM_ORIG] = $this->response['data'][13];
-        isset($this->response['data'][14]) AND $data[self::PARAM_DEST] = $this->response['data'][14];
-        isset($this->response['data'][15]) AND $data['smsStatus'] = $this->response['data'][15];
-        isset($this->response['data'][16]) AND $data['statusChangeDate'] = $this->response['data'][16];
-
-        return $data;
-    }
-
 }
