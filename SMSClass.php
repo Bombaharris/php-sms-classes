@@ -53,7 +53,7 @@ interface SMSable
 }
 
 /**
- * PHP class build to send SMS by Gate 
+ * PHP class build to send SMS by Gate
  * 
  * @author Rafał Zielonka
  * @version 1.0
@@ -82,10 +82,104 @@ interface SMSable
  * @property boolean $_manualConfirm set manual confirm while getting sms
  * @property string $_sslCertPath path to cert file
  * @property string $_sslCertPass  pass to cert file
+ * @property string $_schedule time when sms gonna be send
  * 
  */
 class SMS
 {
+    /**
+     * @desc array key for error code
+     */
+
+    const KEY_ERROR_CODE = 'errorCode';
+    /**
+     * @desc array key for sms identifier
+     */
+    const KEY_SMS_ID = 'id';
+    /**
+     * @desc array key for sms type
+     */
+    const KEY_TYPE = 'type';
+    /**
+     * @desc array key for sms text
+     */
+    const KEY_TEXT = 'text';
+    /**
+     * @desc array key for protocol nuemric identifier
+     */
+    const KEY_PROTOCOL_ID = 'protocolId';
+    /**
+     * @desc array key for chareset scheme identifier
+     */
+    const KEY_CHARSET_SHCHEME_ID = 'charsetSchemeId';
+    /**
+     * @desc array key for connector identifier
+     */
+    const KEY_CONNECTOR_ID = 'connectorId';
+    /**
+     * @desc array key for service identifier
+     */
+    const KEY_SERVICE_ID = 'serviceId';
+    /**
+     * @desc array key for incoming sms identifier
+     */
+    const KEY_SMS_IN_ID = 'smsInId';
+    /**
+     * @desc array key for SMS priority
+     */
+    const KEY_PRIORITY = 'priority';
+    /**
+     * @desc array key for SMS send datetime
+     */
+    const KEY_SEND_DATE = 'sendDate';
+    /**
+     * @desc array key for SMS date
+     */
+    const KEY_VALID_TO_DATE = 'validToDate';
+    /**
+     * @desc array key for delivery notify request flag
+     */
+    const KEY_DELIV_NOTIF_REQUEST = 'delivNotifRequest';
+    /**
+     * @desc array key for SMS originator
+     */
+    const KEY_ORIG = 'orig';
+    /**
+     * @desc array key for SMS destination
+     */
+    const KEY_DEST = 'dest';
+    /**
+     * @desc array key for SMS status
+     */
+    const KEY_STATUS = 'status';
+    /**
+     * @desc array key for SMS status change date
+     */
+    const KEY_STATUS_CHANGE_DATE = 'statusChangeDate';
+    /**
+     * @desc array key for operator identifier
+     */
+    const KEY_OPERATOR_ID = 'operatorId';
+    /**
+     * @desc array key for multi part SMS type
+     */
+    const KEY_MPART_TYPE = 'mPartType';
+    /**
+     * @desc array key for multi part SMS number of parts
+     */
+    const KEY_MPART_PARTS = 'mPartParts';
+    /**
+     * @desc array key for multi part SMS identifier
+     */
+    const KEY_MPART_ID = 'mPartId';
+    /**
+     * @desc array key for multi part SMS part number
+     */
+    const KEY_MPART_NO = 'mPartNo';
+    /**
+     * @desc array key for multi part SMS max part numbers
+     */
+    const KEY_MPART_MAX = 'mPartMax';
 
     protected $_gateUrl = null;
     protected $_gateUser = null;
@@ -106,6 +200,7 @@ class SMS
     protected $_manualConfirm = false;
     protected $_sslCertPath = null;
     protected $_sslCertPass = null;
+    protected $_schedule = null;
     public $response = array(
         'status' => null,
         'error' => false,
@@ -474,6 +569,7 @@ class SMS
         $this->_timeout = $_timeout;
         return $this;
     }
+
     /**
      * Get manual confirm
      *  
@@ -483,6 +579,7 @@ class SMS
     {
         return $this->_manualConfirm;
     }
+
     /**
      * Set manual confirm while getting SMS
      * 
@@ -537,6 +634,64 @@ class SMS
     {
         $this->_sslCertPass = $_sslCertPass;
         return $this;
+    }
+
+    /**
+     * Get send time
+     * 
+     * @return  string
+     */
+    public function getSchedule()
+    {
+        return $this->_schedule;
+    }
+
+    /**
+     * Set send time
+     * 
+     * @param string $_schedule DateTime construct string i.e.(+ 2 minutes)
+     * @return \SMS 
+     */
+    public function setSchedule($_schedule)
+    {
+        $this->_schedule = $_schedule;
+        return $this;
+    }
+
+    /**
+     * Parse server response and returns unified array.
+     * 
+     * @return array
+     */
+    public function explainResponse()
+    {
+        $data = array();
+
+        $data['status'] = $this->response['status'];
+        isset($this->response['data'][1]) ? $data[self::KEY_SMS_ID] = $this->response['data'][1] : $data[self::KEY_ERROR_CODE] = $this->response['error'];
+        isset($this->response['data'][2]) AND $data[self::KEY_TEXT] = $this->response['data'][2];
+        isset($this->response['data'][3]) AND $data[self::KEY_TEXT] = $this->response['data'][3];
+        isset($this->response['data'][4]) AND $data[self::KEY_PROTOCOL_ID] = $this->response['data'][4];
+        isset($this->response['data'][5]) AND $data[self::KEY_CHARSET_SHCHEME_ID] = $this->response['data'][5];
+        isset($this->response['data'][6]) AND $data[self::KEY_SERVICE_ID] = $this->response['data'][6];
+        isset($this->response['data'][7]) AND $data[self::KEY_CONNECTOR_ID] = $this->response['data'][7];
+        isset($this->response['data'][8]) AND $data[self::KEY_SMS_IN_ID] = $this->response['data'][8];
+        isset($this->response['data'][9]) AND $data[self::KEY_PRIORITY] = $this->response['data'][9];
+        isset($this->response['data'][10]) AND $data[self::KEY_SEND_DATE] = $this->response['data'][10];
+        isset($this->response['data'][11]) AND $data[self::KEY_VALID_TO_DATE] = $this->response['data'][11];
+        isset($this->response['data'][12]) AND $data[self::KEY_DELIV_NOTIF_REQUEST] = $this->response['data'][12];
+        isset($this->response['data'][13]) AND $data[self::KEY_ORIG] = $this->response['data'][13];
+        isset($this->response['data'][14]) AND $data[self::KEY_DEST] = $this->response['data'][14];
+        isset($this->response['data'][15]) AND $data[self::KEY_STATUS] = $this->response['data'][15];
+        isset($this->response['data'][16]) AND $data[self::KEY_STATUS_CHANGE_DATE] = $this->response['data'][16];
+        isset($this->response['data'][17]) AND $data[self::KEY_OPERATOR_ID] = $this->response['data'][17];
+        isset($this->response['data'][18]) AND $data[self::KEY_MPART_TYPE] = $this->response['data'][18];
+        isset($this->response['data'][19]) AND $data[self::KEY_MPART_PARTS] = $this->response['data'][19];
+        isset($this->response['data'][20]) AND $data[self::KEY_MPART_ID] = $this->response['data'][20];
+        isset($this->response['data'][21]) AND $data[self::KEY_MPART_NO] = $this->response['data'][21];
+        isset($this->response['data'][22]) AND $data[self::KEY_MPART_MAX] = $this->response['data'][22];
+
+        return $data;
     }
 
 }
