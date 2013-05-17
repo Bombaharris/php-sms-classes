@@ -5,6 +5,7 @@
  * 
  * @package php-sms-classes
  * @author Rafal Zielonka
+ * @link <https://github.com/Bombaharris/php-sms-classes>
  * @copyright Copyright (C) 2012  Rafał Zielonka
  * @license This program is free software: 
  * you can redistribute it and/or modify

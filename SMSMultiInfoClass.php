@@ -228,7 +228,7 @@ class SMSMultiInfo extends SMS implements SMSable
             self::PARAM_PASS => $this->getGatePassword(),
             self::PARAM_SMS_ID => $this->getSMSId(),
         );
-        ($this->getDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
+        ($this->istDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
         if ( in_array(null, $data) ) {
             throw new UnexpectedValueException("Not enough data to confirm sms.", 3);
         }
@@ -248,7 +248,7 @@ class SMSMultiInfo extends SMS implements SMSable
             self::PARAM_PASS => $this->getGatePassword(),
             self::PARAM_SERVICE_ID => $this->getGateServiceId(),
         );
-        ($this->getDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
+        ($this->isDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
         ($this->getTimeout()) AND $data[self::PARAM_TIMEOUT] = $this->getTimeout();
         ($this->isManualConfirm()) AND $data[self::PARAM_MANUAL_CONFIRM] = "true";
         if ( in_array(null, $data) ) {

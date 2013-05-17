@@ -3,7 +3,7 @@
 header("Content-Type: text/plain");
 require '../SMSMultiInfoClass.php';
 
-$Gate = new smsMultiInfo ();
+$Gate = new SMSMultiInfo ();
 $Gate->setGateURL('https://api1.multiinfo.plus.pl/')
         ->setGateUser('username')
         ->setGatePassword('password')

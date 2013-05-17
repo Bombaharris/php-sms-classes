@@ -9,7 +9,7 @@ MultiInfo Example
 Sending SMS:
 
 ```php
-require '../smsMultiInfoClass.php';
+require '../SMSMultiInfoClass.php';
 
 $Gate = new smsMultiInfo ();
 $Gate->setGateURL('https://api1.multiinfo.plus.pl/')
