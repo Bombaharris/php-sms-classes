@@ -89,9 +89,12 @@ interface SMSable
 class SMS
 {
     /**
+     * @desc array key for status
+     */
+    const KEY_RESPONSE_STATUS = 'responseStatus';
+    /**
      * @desc array key for error code
      */
-
     const KEY_ERROR_CODE = 'errorCode';
     /**
      * @desc array key for sms identifier
@@ -112,7 +115,7 @@ class SMS
     /**
      * @desc array key for chareset scheme identifier
      */
-    const KEY_CHARSET_SHCHEME_ID = 'charsetSchemeId';
+    const KEY_CHARSET_SCHEME_ID = 'charsetSchemeId';
     /**
      * @desc array key for connector identifier
      */
@@ -157,6 +160,10 @@ class SMS
      * @desc array key for SMS status change date
      */
     const KEY_STATUS_CHANGE_DATE = 'statusChangeDate';
+        /**
+     * @desc array key for SMS status change date
+     */
+    const KEY_SMSC_RECIVED_DATE = 'smscRecivedDate';
     /**
      * @desc array key for operator identifier
      */
@@ -207,6 +214,8 @@ class SMS
         'error' => false,
         'data' => array(),
     );
+    
+    public $dataExplained = array();
 
     /**
      * Magic method
@@ -660,39 +669,13 @@ class SMS
     }
 
     /**
-     * Parse server response and returns unified array.
+     * Returns unified array.
      * 
      * @return array
      */
     public function explainResponse()
     {
-        $data = array();
-
-        $data['status'] = $this->response['status'];
-        isset($this->response['data'][1]) ? $data[self::KEY_SMS_ID] = $this->response['data'][1] : $data[self::KEY_ERROR_CODE] = $this->response['error'];
-        isset($this->response['data'][2]) AND $data[self::KEY_TEXT] = $this->response['data'][2];
-        isset($this->response['data'][3]) AND $data[self::KEY_TEXT] = $this->response['data'][3];
-        isset($this->response['data'][4]) AND $data[self::KEY_PROTOCOL_ID] = $this->response['data'][4];
-        isset($this->response['data'][5]) AND $data[self::KEY_CHARSET_SHCHEME_ID] = $this->response['data'][5];
-        isset($this->response['data'][6]) AND $data[self::KEY_SERVICE_ID] = $this->response['data'][6];
-        isset($this->response['data'][7]) AND $data[self::KEY_CONNECTOR_ID] = $this->response['data'][7];
-        isset($this->response['data'][8]) AND $data[self::KEY_SMS_IN_ID] = $this->response['data'][8];
-        isset($this->response['data'][9]) AND $data[self::KEY_PRIORITY] = $this->response['data'][9];
-        isset($this->response['data'][10]) AND $data[self::KEY_SEND_DATE] = $this->response['data'][10];
-        isset($this->response['data'][11]) AND $data[self::KEY_VALID_TO_DATE] = $this->response['data'][11];
-        isset($this->response['data'][12]) AND $data[self::KEY_DELIV_NOTIF_REQUEST] = $this->response['data'][12];
-        isset($this->response['data'][13]) AND $data[self::KEY_ORIG] = $this->response['data'][13];
-        isset($this->response['data'][14]) AND $data[self::KEY_DEST] = $this->response['data'][14];
-        isset($this->response['data'][15]) AND $data[self::KEY_STATUS] = $this->response['data'][15];
-        isset($this->response['data'][16]) AND $data[self::KEY_STATUS_CHANGE_DATE] = $this->response['data'][16];
-        isset($this->response['data'][17]) AND $data[self::KEY_OPERATOR_ID] = $this->response['data'][17];
-        isset($this->response['data'][18]) AND $data[self::KEY_MPART_TYPE] = $this->response['data'][18];
-        isset($this->response['data'][19]) AND $data[self::KEY_MPART_PARTS] = $this->response['data'][19];
-        isset($this->response['data'][20]) AND $data[self::KEY_MPART_ID] = $this->response['data'][20];
-        isset($this->response['data'][21]) AND $data[self::KEY_MPART_NO] = $this->response['data'][21];
-        isset($this->response['data'][22]) AND $data[self::KEY_MPART_MAX] = $this->response['data'][22];
-
-        return $data;
+        return $this->dataExplained;
     }
 
 }

@@ -1,3 +1,4 @@
+
 <?php
 
 require 'SMSClass.php';
@@ -29,6 +30,7 @@ class SMSMultiInfo extends SMS implements SMSable
     /**
      * @desc path to send action
      */
+
     const SEND_URL_PATH = 'sendsms.aspx';
     /**
      * @desc path to send action  max chars 1377
@@ -49,7 +51,7 @@ class SMSMultiInfo extends SMS implements SMSable
     /**
      * @desc server response separator
      */
-    const RESPONSE_SEPARATOR = '\n';
+    const RESPONSE_SEPARATOR = PHP_EOL;
     /**
      * @desc url param user name
      * 
@@ -228,7 +230,7 @@ class SMSMultiInfo extends SMS implements SMSable
             self::PARAM_PASS => $this->getGatePassword(),
             self::PARAM_SMS_ID => $this->getSMSId(),
         );
-        ($this->istDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
+        ($this->isDeleteContent()) AND $data[self::PARAM_DELETE_CONTENT] = "true";
         if ( in_array(null, $data) ) {
             throw new UnexpectedValueException("Not enough data to confirm sms.", 3);
         }
@@ -348,8 +350,12 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_send_url());
 
         if ( $this->response['error'] ) {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_ERROR_CODE] = $this->response['error'];
             return false;
         } else {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->response['data'][1];
             return true;
         }
     }
@@ -364,8 +370,27 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_info_url());
 
         if ( $this->response['error'] ) {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_ERROR_CODE] = $this->response['error'];
             return false;
         } else {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->response['data'][1];
+            $this->dataExplained['' . parent::KEY_TYPE . ''] = $this->response['data'][2];
+            $this->dataExplained['' . parent::KEY_TEXT . ''] = $this->response['data'][3];
+            $this->dataExplained['' . parent::KEY_PROTOCOL_ID . ''] = $this->response['data'][4];
+            $this->dataExplained['' . parent::KEY_CHARSET_SCHEME_ID . ''] = $this->response['data'][5];
+            $this->dataExplained['' . parent::KEY_SERVICE_ID . ''] = $this->response['data'][6];
+            $this->dataExplained['' . parent::KEY_CONNECTOR_ID . ''] = $this->response['data'][7];
+            $this->dataExplained['' . parent::KEY_SMS_IN_ID . ''] = $this->response['data'][8];
+            $this->dataExplained['' . parent::KEY_PRIORITY . ''] = $this->response['data'][9];
+            $this->dataExplained['' . parent::KEY_SEND_DATE . ''] = $this->response['data'][10];
+            $this->dataExplained['' . parent::KEY_VALID_TO_DATE . ''] = $this->response['data'][11];
+            $this->dataExplained['' . parent::KEY_DELIV_NOTIF_REQUEST . ''] = $this->response['data'][12];
+            $this->dataExplained['' . parent::KEY_ORIG . ''] = $this->response['data'][13];
+            $this->dataExplained['' . parent::KEY_DEST . ''] = $this->response['data'][14];
+            $this->dataExplained['' . parent::KEY_STATUS . ''] = $this->response['data'][15];
+            $this->dataExplained['' . parent::KEY_STATUS_CHANGE_DATE . ''] = $this->response['data'][16];
             return true;
         }
     }
@@ -380,14 +405,16 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_confirm_url());
 
         if ( $this->response['error'] ) {
-            return false;
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_ERROR_CODE . ''] = $this->response['error'];
         } else {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             return true;
         }
     }
 
     /**
-     * get SMS from gate
+     * Get SMS from gate
      * 
      * @return boolean 
      */
@@ -396,9 +423,23 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_get_url());
 
         if ( $this->response['error'] ) {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_ERROR_CODE . ''] = $this->response['error'];
             return false;
         } else {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            isset($this->response['data'][1]) AND $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->response['data'][1];
+            isset($this->response['data'][2]) AND $this->dataExplained['' . parent::KEY_ORIG . ''] = $this->response['data'][2];
+            isset($this->response['data'][3]) AND $this->dataExplained['' . parent::KEY_DEST . ''] = $this->response['data'][3];
+            isset($this->response['data'][4]) AND $this->dataExplained['' . parent::KEY_TYPE . ''] = $this->response['data'][4];
+            isset($this->response['data'][5]) AND $this->dataExplained['' . parent::KEY_TEXT . ''] = $this->response['data'][5];
+            isset($this->response['data'][6]) AND $this->dataExplained['' . parent::KEY_PROTOCOL_ID . ''] = $this->response['data'][6];
+            isset($this->response['data'][7]) AND $this->dataExplained['' . parent::KEY_CHARSET_SCHEME_ID . ''] = $this->response['data'][7];
+            isset($this->response['data'][8]) AND $this->dataExplained['' . parent::KEY_SERVICE_ID . ''] = $this->response['data'][8];
+            isset($this->response['data'][9]) AND $this->dataExplained['' . parent::KEY_CONNECTOR_ID . ''] = $this->response['data'][9];
+            isset($this->response['data'][10]) AND $this->dataExplained['' . parent::KEY_SMSC_RECIVED_DATE . ''] = $this->_unformat_date($this->response['data'][10]);
             return true;
         }
     }
+
 }

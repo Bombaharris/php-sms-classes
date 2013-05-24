@@ -34,7 +34,7 @@ class SMSMobiltek extends SMS implements SMSable
     /**
      * @desc server response separator
      */
-    const RESPONSE_SEPARATOR = '\n';
+    const RESPONSE_SEPARATOR = PHP_EOL;
     /**
      * @desc server response separator
      */
@@ -298,6 +298,7 @@ class SMSMobiltek extends SMS implements SMSable
      */
     protected function _parse_respone($response)
     {
+                echo $response;
         $response = explode(self::RESPONSE_SEPARATOR, rtrim($response, self::RESPONSE_SEPARATOR));
         if ( is_array($response) ) {
             $this->response['status'] = $response[0];
@@ -347,10 +348,13 @@ class SMSMobiltek extends SMS implements SMSable
     public function send()
     {
         $this->_request($this->_get_send_url());
-
         if ( $this->response['error'] ) {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_ERROR_CODE] = $this->response['error'];
             return false;
         } else {
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
+            $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->getSMSId();
             return true;
         }
     }
@@ -362,8 +366,8 @@ class SMSMobiltek extends SMS implements SMSable
      */
     public function info()
     {
-        $this->response['status'] = 1;
-        return true;
+        $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = 1;
+        return false;
     }
 
     /**
@@ -373,47 +377,35 @@ class SMSMobiltek extends SMS implements SMSable
      */
     public function confirm()
     {
-        $this->response['status'] = 1;
-        return true;
+        $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = 1;
+        return false;
     }
 
     /**
      * Listen for request from gate
      * 
-     * @return boolean 
+     * @return string
      */
     public function get()
     {
         if ( isset($_REQUEST[self::PARAM_SMS_ID]) ) {
-            
-            
-            $this->response['status'] = 1;
-            $this->response['data'][1] = isset($_REQUEST[self::PARAM_SMS_ID]) ? $_REQUEST[self::PARAM_SMS_ID] : null;
-            $this->response['data'][2] = null;
-            $this->response['data'][3] = isset($_REQUEST[self::PARAM_TEXT]) ? $_REQUEST[self::PARAM_TEXT] : null;
-            $this->response['data'][4] = null;
-            $this->response['data'][5] = null;
-            $this->response['data'][6] = isset($_REQUEST[self::PARAM_SERVICE_ID]) ? $_REQUEST[self::PARAM_SERVICE_ID] : null;
-            $this->response['data'][7] = null;
-            $this->response['data'][8] = null;
-            $this->response['data'][9] = null;
-            $this->response['data'][10] = isset($_REQUEST[self::PARAM_RECIVED_TIME]) ? $_REQUEST[self::PARAM_RECIVED_TIME] : null;
-            $this->response['data'][11] = null;
-            $this->response['data'][12] = null;
-            $this->response['data'][13] = isset($_REQUEST[self::PARAM_ORIG]) ? $_REQUEST[self::PARAM_ORIG] : null;
-            $this->response['data'][14] = isset($_REQUEST[self::PARAM_DEST]) ? $_REQUEST[self::PARAM_DEST] : null;
-            $this->response['data'][15] = null;
-            $this->response['data'][16] = null;
-            $this->response['data'][17] = isset($_REQUEST[self::PARAM_OPERATOR_ID]) ? $_REQUEST[self::PARAM_OPERATOR_ID] : null;
-            $this->response['data'][18] = isset($_REQUEST[self::PARAM_MPART_TYPE]) ? $_REQUEST[self::PARAM_MPART_TYPE] : null;
-            $this->response['data'][19] = isset($_REQUEST[self::PARAM_MPART_PARTS]) ? $_REQUEST[self::PARAM_MPART_PARTS] : null;
-            $this->response['data'][20] = isset($_REQUEST[self::PARAM_MPART_ID]) ? $_REQUEST[self::PARAM_MPART_ID] : null;
-            $this->response['data'][21] = isset($_REQUEST[self::PARAM_MPART_NO]) ? $_REQUEST[self::PARAM_MPART_NO] : null;
-            $this->response['data'][22] = isset($_REQUEST[self::PARAM_MPART_MAX]) ? $_REQUEST[self::PARAM_MPART_MAX] : null;
-            
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = 0;
+            $this->dataExplained['' . parent::KEY_SMS_ID . ''] = isset($_REQUEST[self::PARAM_SMS_ID]) ? $_REQUEST[self::PARAM_SMS_ID] : null;
+            $this->dataExplained['' . parent::KEY_TEXT . ''] = isset($_REQUEST[self::PARAM_TEXT]) ? $_REQUEST[self::PARAM_TEXT] : null;
+            $this->dataExplained['' . parent::KEY_SERVICE_ID . ''] = isset($_REQUEST[self::PARAM_SERVICE_ID]) ? $_REQUEST[self::PARAM_SERVICE_ID] : null;
+            $this->dataExplained['' . parent::KEY_SMSC_RECIVED_DATE . ''] = isset($_REQUEST[self::PARAM_RECIVED_TIME]) ? $_REQUEST[self::PARAM_RECIVED_TIME] : null;
+            $this->dataExplained['' . parent::KEY_ORIG . ''] = isset($_REQUEST[self::PARAM_ORIG]) ? $_REQUEST[self::PARAM_ORIG] : null;
+            $this->dataExplained['' . parent::KEY_DEST . ''] = isset($_REQUEST[self::PARAM_DEST]) ? $_REQUEST[self::PARAM_DEST] : null;
+            $this->dataExplained['' . parent::KEY_OPERATOR_ID . ''] = isset($_REQUEST[self::PARAM_OPERATOR_ID]) ? $_REQUEST[self::PARAM_OPERATOR_ID] : null;
+            $this->dataExplained['' . parent::KEY_MPART_TYPE . ''] = isset($_REQUEST[self::PARAM_MPART_TYPE]) ? $_REQUEST[self::PARAM_MPART_TYPE] : null;
+            $this->dataExplained['' . parent::KEY_MPART_PARTS . ''] = isset($_REQUEST[self::PARAM_MPART_PARTS]) ? $_REQUEST[self::PARAM_MPART_PARTS] : null;
+            $this->dataExplained['' . parent::KEY_MPART_ID . ''] = isset($_REQUEST[self::PARAM_MPART_ID]) ? $_REQUEST[self::PARAM_MPART_ID] : null;
+            $this->dataExplained['' . parent::KEY_MPART_NO . ''] = isset($_REQUEST[self::PARAM_MPART_NO]) ? $_REQUEST[self::PARAM_MPART_NO] : null;
+            $this->dataExplained['' . parent::KEY_MPART_MAX . ''] = isset($_REQUEST[self::PARAM_MPART_MAX]) ? $_REQUEST[self::PARAM_MPART_MAX] : null;
         } else {
             throw new RuntimeException('The variables in $_REQUEST are NOT provided to the script via the GET or POST method.', 1);
         }
         print self::RESPONSE_OK;
     }
+
 }
