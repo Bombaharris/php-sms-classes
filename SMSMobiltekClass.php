@@ -233,8 +233,6 @@ class SMSMobiltek extends SMS implements SMSable
     /**
      * Returns send URL
      * 
-     * @desc depends on string lenght returns short or long url
-     * 
      * @return string
      * @throws UnexpectedValueException
      */
@@ -298,7 +296,6 @@ class SMSMobiltek extends SMS implements SMSable
      */
     protected function _parse_respone($response)
     {
-                echo $response;
         $response = explode(self::RESPONSE_SEPARATOR, rtrim($response, self::RESPONSE_SEPARATOR));
         if ( is_array($response) ) {
             $this->response['status'] = $response[0];
