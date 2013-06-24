@@ -299,7 +299,7 @@ class SMSMobiltek extends SMS implements SMSable
         $response = explode(self::RESPONSE_SEPARATOR, rtrim($response, self::RESPONSE_SEPARATOR));
         if ( is_array($response) ) {
             $this->response['status'] = $response[0];
-            if ( $this->response['status'] >= 0 ) {
+            if ( $this->response['status'] == 'OK' ) {
                 unset($response[0]);
                 $this->response['data'] = $response;
             } else {
