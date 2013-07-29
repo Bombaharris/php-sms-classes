@@ -1,7 +1,7 @@
 
 <?php
 
-require 'SMSClass.php';
+require_once 'SMSClass.php';
 
 /**
  * Send SMS by MultiInfo gate
@@ -25,7 +25,7 @@ require 'SMSClass.php';
  * 
  * @filesource
  */
-class SMSMultiInfo extends SMS implements SMSable
+class SMSMultiInfo extends SMSClasses\SMS implements SMSClasses\SMSable
 {
     /**
      * @desc path to send action
@@ -52,6 +52,10 @@ class SMSMultiInfo extends SMS implements SMSable
      * @desc server response separator
      */
     const RESPONSE_SEPARATOR = PHP_EOL;
+    /**
+     * @desc server response status
+     */
+    const RESPONSE_OK = '0';
     /**
      * @desc url param user name
      * 
@@ -350,10 +354,12 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_send_url());
 
         if ( $this->response['error'] ) {
+            $this->actionStatus = parent::ACTION_STATUS_ERROR;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_ERROR_CODE] = $this->response['error'];
             return false;
         } else {
+            $this->actionStatus = ($this->response['status'] >= 0) ? parent::ACTION_STATUS_SUCCESS : parent::ACTION_STATUS_FAIL;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->response['data'][1];
             return true;
@@ -370,10 +376,12 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_info_url());
 
         if ( $this->response['error'] ) {
+            $this->actionStatus = parent::ACTION_STATUS_ERROR;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_ERROR_CODE] = $this->response['error'];
             return false;
         } else {
+            $this->actionStatus = ($this->response['status'] >= 0) ? parent::ACTION_STATUS_SUCCESS : parent::ACTION_STATUS_FAIL;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->response['data'][1];
             $this->dataExplained['' . parent::KEY_TYPE . ''] = $this->response['data'][2];
@@ -405,9 +413,11 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_confirm_url());
 
         if ( $this->response['error'] ) {
+            $this->actionStatus = parent::ACTION_STATUS_ERROR;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_ERROR_CODE . ''] = $this->response['error'];
         } else {
+            $this->actionStatus = ($this->response['status'] >= 0) ? parent::ACTION_STATUS_SUCCESS : parent::ACTION_STATUS_FAIL;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             return true;
         }
@@ -423,10 +433,12 @@ class SMSMultiInfo extends SMS implements SMSable
         $this->_request($this->_get_get_url());
 
         if ( $this->response['error'] ) {
+            $this->actionStatus = parent::ACTION_STATUS_ERROR;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_ERROR_CODE . ''] = $this->response['error'];
             return false;
         } else {
+            $this->actionStatus = ($this->response['status'] >= 0) ? parent::ACTION_STATUS_SUCCESS : parent::ACTION_STATUS_FAIL;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             isset($this->response['data'][1]) AND $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->response['data'][1];
             isset($this->response['data'][2]) AND $this->dataExplained['' . parent::KEY_ORIG . ''] = $this->response['data'][2];

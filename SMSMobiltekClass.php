@@ -1,6 +1,6 @@
 <?php
 
-require 'SMSClass.php';
+require_once 'SMSClass.php';
 
 /**
  * Send SMS by Mobiltek gate
@@ -24,7 +24,7 @@ require 'SMSClass.php';
  * 
  * @filesource
  */
-class SMSMobiltek extends SMS implements SMSable
+class SMSMobiltek extends SMSClasses\SMS implements SMSClasses\SMSable
 {
     /**
      * @desc path to send action
@@ -36,7 +36,7 @@ class SMSMobiltek extends SMS implements SMSable
      */
     const RESPONSE_SEPARATOR = PHP_EOL;
     /**
-     * @desc server response separator
+     * @desc server response status
      */
     const RESPONSE_OK = 'OK';
     /**
@@ -299,7 +299,7 @@ class SMSMobiltek extends SMS implements SMSable
         $response = explode(self::RESPONSE_SEPARATOR, rtrim($response, self::RESPONSE_SEPARATOR));
         if ( is_array($response) ) {
             $this->response['status'] = $response[0];
-            if ( $this->response['status'] == 'OK' ) {
+            if ( $this->response['status'] == self::RESPONSE_OK ) {
                 unset($response[0]);
                 $this->response['data'] = $response;
             } else {
@@ -309,7 +309,7 @@ class SMSMobiltek extends SMS implements SMSable
     }
 
     /**
-     * Returns date formatted for API HTTPS SMS
+     * Returns date formatted for API
      * 
      * @param string $date DateTime object string i.e. "+1 day" max "+72 hours"
      * @return string 
@@ -323,7 +323,7 @@ class SMSMobiltek extends SMS implements SMSable
     /**
      * Return date TIMESTAMP
      * 
-     * @param string $date date formatted by API HTTPS SMS
+     * @param string $date date formatted by API
      * @return string
      * @throws UnexpectedValueException 
      */
@@ -346,10 +346,12 @@ class SMSMobiltek extends SMS implements SMSable
     {
         $this->_request($this->_get_send_url());
         if ( $this->response['error'] ) {
+            $this->actionStatus = parent::ACTION_STATUS_FAIL;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_ERROR_CODE] = $this->response['error'];
             return false;
         } else {
+            $this->actionStatus = ($this->response['status'] == self::RESPONSE_OK) ? parent::ACTION_STATUS_SUCCESS : parent::ACTION_STATUS_FAIL;
             $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = $this->response['status'];
             $this->dataExplained['' . parent::KEY_SMS_ID . ''] = $this->getSMSId();
             return true;
@@ -363,7 +365,8 @@ class SMSMobiltek extends SMS implements SMSable
      */
     public function info()
     {
-        $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = 1;
+        $this->actionStatus = parent::ACTION_STATUS_FAIL;
+        $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = null;
         return false;
     }
 
@@ -374,7 +377,8 @@ class SMSMobiltek extends SMS implements SMSable
      */
     public function confirm()
     {
-        $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = 1;
+        $this->actionStatus = parent::ACTION_STATUS_FAIL;
+        $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = null;
         return false;
     }
 
@@ -386,7 +390,8 @@ class SMSMobiltek extends SMS implements SMSable
     public function get()
     {
         if ( isset($_REQUEST[self::PARAM_SMS_ID]) ) {
-            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = 0;
+            $this->actionStatus = parent::ACTION_STATUS_SUCCESS;
+            $this->dataExplained['' . parent::KEY_RESPONSE_STATUS . ''] = null;
             $this->dataExplained['' . parent::KEY_SMS_ID . ''] = isset($_REQUEST[self::PARAM_SMS_ID]) ? $_REQUEST[self::PARAM_SMS_ID] : null;
             $this->dataExplained['' . parent::KEY_TEXT . ''] = isset($_REQUEST[self::PARAM_TEXT]) ? $_REQUEST[self::PARAM_TEXT] : null;
             $this->dataExplained['' . parent::KEY_SERVICE_ID . ''] = isset($_REQUEST[self::PARAM_SERVICE_ID]) ? $_REQUEST[self::PARAM_SERVICE_ID] : null;

@@ -1,5 +1,7 @@
 <?php
 
+namespace SMSClasses;
+
 /**
  * Send SMS by gate
  * 
@@ -51,6 +53,11 @@ interface SMSable
      * Method parse gate response
      */
     public function explainResponse();
+
+    /**
+     * Method return action status ie. send() info()
+     */
+    public function getActionStatus();
 }
 
 /**
@@ -84,12 +91,32 @@ interface SMSable
  * @property string $_sslCertPath path to cert file
  * @property string $_sslCertPass  pass to cert file
  * @property string $_schedule time when sms gonna be send
+ * @property integer $actionStatus unified action status (-1,0,1)
+ * @property array $response contains gate response info
  * 
  */
 class SMS
 {
     /**
-     * @desc array key for status
+     * @desc status code while error was detected during action
+     */
+
+    const ACTION_STATUS_ERROR = -1;
+    /**
+     * @desc status code while action fail
+     */
+    const ACTION_STATUS_FAIL = 0;
+    /**
+     * @desc status code while action succeed
+     */
+    const ACTION_STATUS_SUCCESS = 1;
+
+    /**
+     * @desc array key for action status
+     */
+    const KEY_ACTION_STATUS = 'actionStatus';
+    /**
+     * @desc array key for gate response status
      */
     const KEY_RESPONSE_STATUS = 'responseStatus';
     /**
@@ -160,7 +187,7 @@ class SMS
      * @desc array key for SMS status change date
      */
     const KEY_STATUS_CHANGE_DATE = 'statusChangeDate';
-        /**
+    /**
      * @desc array key for SMS status change date
      */
     const KEY_SMSC_RECIVED_DATE = 'smscRecivedDate';
@@ -209,12 +236,12 @@ class SMS
     protected $_sslCertPath = null;
     protected $_sslCertPass = null;
     protected $_schedule = null;
+    public $actionStatus = 0;
     public $response = array(
         'status' => null,
         'error' => false,
         'data' => array(),
     );
-    
     public $dataExplained = array();
 
     /**
@@ -676,6 +703,16 @@ class SMS
     public function explainResponse()
     {
         return $this->dataExplained;
+    }
+
+    /**
+     * Returns action status
+     * 
+     * @return integer
+     */
+    public function getActionStatus()
+    {
+        return $this->actionStatus;
     }
 
 }
