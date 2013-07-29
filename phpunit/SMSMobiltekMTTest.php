@@ -22,7 +22,7 @@ class SMSMobiltekMTTest extends PHPUnit_Framework_TestCase
     {
         $this->object = new SMSMobiltekMT;
         $this->object
-                ->setGateURL('http://dev.clickquicknow.pl/mobiltek_mt_d/')
+                ->setGateURL('https://ssl.mobiltek.pl/api/')
                 ->setGateUser('user')
                 ->setGatePassword('password')
                 ->setGateServiceId('1');
