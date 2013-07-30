@@ -392,8 +392,8 @@ class SMSMultiInfo extends SMSClasses\SMS implements SMSClasses\SMSable
             $this->dataExplained['' . parent::KEY_CONNECTOR_ID . ''] = $this->response['data'][7];
             $this->dataExplained['' . parent::KEY_SMS_IN_ID . ''] = $this->response['data'][8];
             $this->dataExplained['' . parent::KEY_PRIORITY . ''] = $this->response['data'][9];
-            $this->dataExplained['' . parent::KEY_SEND_DATE . ''] = $this->response['data'][10];
-            $this->dataExplained['' . parent::KEY_VALID_TO_DATE . ''] = $this->response['data'][11];
+            $this->dataExplained['' . parent::KEY_SEND_DATE . ''] = $this->_unformat_date($this->response['data'][10]);
+            $this->dataExplained['' . parent::KEY_VALID_TO_DATE . ''] = $this->_unformat_date($this->response['data'][11]);
             $this->dataExplained['' . parent::KEY_DELIV_NOTIF_REQUEST . ''] = $this->response['data'][12];
             $this->dataExplained['' . parent::KEY_ORIG . ''] = $this->response['data'][13];
             $this->dataExplained['' . parent::KEY_DEST . ''] = $this->response['data'][14];
