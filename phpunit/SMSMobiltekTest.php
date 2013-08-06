@@ -39,7 +39,7 @@ class SMSMobiltekTest extends PHPUnit_Framework_TestCase
                 ->setTelephoneNumber($number)
                 ->setText($text)
                 ->setAdvancedEncoding(true)
-                ->setSMSId(mt_rand(1, 10000000000))
+                ->setSMSId(mt_rand(1, SMSMobiltek::MAX_SMS_ID))
                 ->send();
         $this->assertEquals(SMSMobiltek::ACTION_STATUS_SUCCESS, $this->object->getActionStatus());
     }
@@ -96,7 +96,7 @@ class SMSMobiltekTest extends PHPUnit_Framework_TestCase
                 ->setNumberPrefix($numberPrefix)
                 ->setTelephoneNumber($number)
                 ->setText($text)
-                ->setSMSId(mt_rand(1, 1000000))
+                ->setSMSId(mt_rand(1, SMSMobiltek::MAX_SMS_ID))
                 ->send();
         $this->assertEquals(array(
             'responseStatus' => 'OK',

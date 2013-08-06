@@ -40,6 +40,10 @@ class SMSMobiltek extends SMSClasses\SMS implements SMSClasses\SMSable
      */
     const RESPONSE_OK = 'OK';
     /**
+     * @desc maximum integer allowd to be set by client
+     */
+    const MAX_SMS_ID = 2147483647;
+    /**
      * @desc url param user name
      * 
      * required: yes <br />
